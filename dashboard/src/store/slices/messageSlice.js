@@ -88,4 +88,13 @@ export const deleteMessage = (id) => async (dispatch) => {
     );
   }
 };
+
+export const clearAllMessageErrors = () => (dispatch) => {
+  dispatch(messageSlice.actions.clearAllErrors());
+};
+
+export const resetMessagesSlice = () => (dispatch) => {
+  dispatch(messageSlice.actions.resetMessageSlice());
+};
+
 export default messageSlice.reducer;
