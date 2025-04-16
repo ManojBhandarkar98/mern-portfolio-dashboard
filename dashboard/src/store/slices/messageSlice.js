@@ -71,4 +71,21 @@ export const getAllMessages = () => async (dispatch) => {
   }
 };
 
+export const deleteMessage = (id) => async (dispatch) => {
+  dispatch(messageSlice.actions.deleteMessageRequest());
+  try {
+    const response = await axios.delete(
+      `https://mern-portfolio-backend-ob7w.onrender.com/api/v1/message/delete/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
+    dispatch(messageSlice.actions.deleteMessageSuccess(response.data.message));
+    dispatch(messageSlice.actions.clearAllErrors());
+  } catch (error) {
+    dispatch(
+      messageSlice.actions.deleteMessageFailed(error.response.data.message)
+    );
+  }
+};
 export default messageSlice.reducer;
