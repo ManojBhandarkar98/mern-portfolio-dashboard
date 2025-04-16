@@ -83,4 +83,20 @@ const skillSlice = createSlice({
   },
 });
 
+export const getAllSkills = () => async (dispatch) => {
+  dispatch(skillSlice.actions.getAllSkillsRequest());
+  try {
+    const response = await axios.get(
+      "https://mern-portfolio-backend-ob7w.onrender.com/api/v1/skill/getall",
+      { withCredentials: true }
+    );
+    dispatch(skillSlice.actions.getAllSkillsSuccess(response.data.skills));
+    dispatch(skillSlice.actions.clearAllErrors());
+  } catch (error) {
+    dispatch(
+      skillSlice.actions.getAllSkillsFailed(error.response.data.message)
+    );
+  }
+};
+
 export default skillSlice.reducer;
