@@ -53,4 +53,22 @@ const messageSlice = createSlice({
   },
 });
 
+export const getAllMessages = () => async (dispatch) => {
+  dispatch(messageSlice.actions.getAllMessagesRequest());
+  try {
+    const response = await axios.get(
+      "https://mern-portfolio-backend-ob7w.onrender.com/api/v1/message/getall",
+      { withCredentials: true }
+    );
+    dispatch(
+      messageSlice.actions.getAllMessagesSuccess(response.data.messages)
+    );
+    dispatch(messageSlice.actions.clearAllErrors());
+  } catch (error) {
+    dispatch(
+      messageSlice.actions.getAllMessagesFailed(error.response.data.message)
+    );
+  }
+};
+
 export default messageSlice.reducer;
