@@ -86,4 +86,25 @@ export const getAllTimeline = () => async (dispatch) => {
   }
 };
 
+export const addNewTimeline = (data) => async (dispatch) => {
+  dispatch(timelineSlice.actions.addNewTimelineRequest());
+  try {
+    const response = await axios.post(
+      "https://mern-portfolio-backend-ob7w.onrender.com/api/v1/timeline/add",
+      data,
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    dispatch(
+      timelineSlice.actions.addNewTimelineSuccess(response.data.message)
+    );
+    dispatch(timelineSlice.actions.clearAllErrors());
+  } catch (error) {
+    dispatch(
+      timelineSlice.actions.addNewTimelineFailed(error.response.data.message)
+    );
+  }
+};
 export default timelineSlice.reducer;
