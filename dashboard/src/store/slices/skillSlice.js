@@ -119,4 +119,22 @@ export const addNewSkill = (data) => async (dispatch) => {
   }
 };
 
+export const updateSkill = (id, proficiency) => async (dispatch) => {
+  dispatch(skillSlice.actions.updateSkillRequest());
+  try {
+    const response = await axios.put(
+      `https://mern-portfolio-backend-ob7w.onrender.com/api/v1/skill/update/${id}`,
+      { proficiency },
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    dispatch(skillSlice.actions.updateSkillSuccess(response.data.message));
+    dispatch(skillSlice.actions.clearAllErrors());
+  } catch (error) {
+    dispatch(skillSlice.actions.updateSkillFailed(error.response.data.message));
+  }
+};
+
 export default skillSlice.reducer;
