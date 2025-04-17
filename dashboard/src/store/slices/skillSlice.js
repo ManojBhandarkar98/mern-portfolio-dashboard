@@ -137,4 +137,28 @@ export const updateSkill = (id, proficiency) => async (dispatch) => {
   }
 };
 
+export const deleteSkill = (id) => async (dispatch) => {
+  dispatch(skillSlice.actions.deleteSkillRequest());
+  try {
+    const response = await axios.delete(
+      `https://mern-portfolio-backend-ob7w.onrender.com/api/v1/skill/delete/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
+    dispatch(skillSlice.actions.deleteSkillSuccess(response.data.message));
+    dispatch(skillSlice.actions.clearAllErrors());
+  } catch (error) {
+    dispatch(skillSlice.actions.deleteSkillFailed(error.response.data.message));
+  }
+};
+
+export const clearAllSkillErrors = () => (dispatch) => {
+  dispatch(skillSlice.actions.clearAllErrors());
+};
+
+export const resetSkillSlice = () => (dispatch) => {
+  dispatch(skillSlice.actions.resetSkillSlice());
+};
+
 export default skillSlice.reducer;
