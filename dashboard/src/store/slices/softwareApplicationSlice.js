@@ -68,5 +68,28 @@ const softwareApplicationSlice = createSlice({
   },
 });
 
+export const getAllSoftwareApplications = () => async (dispatch) => {
+  dispatch(
+    softwareApplicationSlice.actions.getAllsoftwareApplicationsRequest()
+  );
+  try {
+    const response = await axios.get(
+      "https://mern-portfolio-backend-ob7w.onrender.com/api/v1/softwareapplication/getall",
+      { withCredentials: true }
+    );
+    dispatch(
+      softwareApplicationSlice.actions.getAllsoftwareApplicationsSuccess(
+        response.data.softwareApplications
+      )
+    );
+    dispatch(softwareApplicationSlice.actions.clearAllErrors());
+  } catch (error) {
+    dispatch(
+      softwareApplicationSlice.actions.getAllsoftwareApplicationsFailed(
+        error.response.data.message
+      )
+    );
+  }
+};
 
 export default softwareApplicationSlice.reducer;
