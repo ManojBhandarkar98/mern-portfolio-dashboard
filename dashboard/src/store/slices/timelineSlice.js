@@ -68,4 +68,22 @@ const timelineSlice = createSlice({
   },
 });
 
+export const getAllTimeline = () => async (dispatch) => {
+  dispatch(timelineSlice.actions.getAllTimelineRequest());
+  try {
+    const response = await axios.get(
+      "https://mern-portfolio-backend-ob7w.onrender.com/api/v1/timeline/getall",
+      { withCredentials: true }
+    );
+    dispatch(
+      timelineSlice.actions.getAllTimelineSuccess(response.data.timelines)
+    );
+    dispatch(timelineSlice.actions.clearAllErrors());
+  } catch (error) {
+    dispatch(
+      timelineSlice.actions.getAllTimelineFailed(error.response.data.message)
+    );
+  }
+};
+
 export default timelineSlice.reducer;
