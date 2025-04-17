@@ -92,4 +92,32 @@ export const getAllSoftwareApplications = () => async (dispatch) => {
   }
 };
 
+export const addNewSoftwareApplication = (data) => async (dispatch) => {
+  dispatch(
+    softwareApplicationSlice.actions.addNewsoftwareApplicationsRequest()
+  );
+  try {
+    const response = await axios.post(
+      "https://mern-portfolio-backend-ob7w.onrender.com/api/v1/softwareapplication/add",
+      data,
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
+    dispatch(
+      softwareApplicationSlice.actions.addNewsoftwareApplicationsSuccess(
+        response.data.message
+      )
+    );
+    dispatch(softwareApplicationSlice.actions.clearAllErrors());
+  } catch (error) {
+    dispatch(
+      softwareApplicationSlice.actions.addNewsoftwareApplicationsFailed(
+        error.response.data.message
+      )
+    );
+  }
+};
+
 export default softwareApplicationSlice.reducer;
