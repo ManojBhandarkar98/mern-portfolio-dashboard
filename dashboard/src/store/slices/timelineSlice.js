@@ -107,4 +107,32 @@ export const addNewTimeline = (data) => async (dispatch) => {
     );
   }
 };
+export const deleteTimeline = (id) => async (dispatch) => {
+  dispatch(timelineSlice.actions.deleteTimelineRequest());
+  try {
+    const response = await axios.delete(
+      `https://mern-portfolio-backend-ob7w.onrender.com/api/v1/timeline/delete/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
+    dispatch(
+      timelineSlice.actions.deleteTimelineSuccess(response.data.message)
+    );
+    dispatch(timelineSlice.actions.clearAllErrors());
+  } catch (error) {
+    dispatch(
+      timelineSlice.actions.deleteTimelineFailed(error.response.data.message)
+    );
+  }
+};
+
+export const resetTimelineSlice = () => (dispatch) => {
+  dispatch(timelineSlice.actions.resetTimelineSlice());
+};
+
+export const clearAllTimelineErrors = () => (dispatch) => {
+  dispatch(timelineSlice.actions.clearAllErrors());
+};
+
 export default timelineSlice.reducer;
