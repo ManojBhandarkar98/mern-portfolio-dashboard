@@ -99,4 +99,24 @@ export const getAllSkills = () => async (dispatch) => {
   }
 };
 
+export const addNewSkill = (data) => async (dispatch) => {
+  dispatch(skillSlice.actions.addNewSkillRequest());
+  try {
+    const response = await axios.post(
+      "https://mern-portfolio-backend-ob7w.onrender.com/api/v1/skill/add",
+      data,
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
+    console.log(response);
+    console.log(response.data.message);
+    dispatch(skillSlice.actions.addNewSkillSuccess(response.data.message));
+    dispatch(skillSlice.actions.clearAllErrors());
+  } catch (error) {
+    dispatch(skillSlice.actions.addNewSkillFailed(error.response.data.message));
+  }
+};
+
 export default skillSlice.reducer;
