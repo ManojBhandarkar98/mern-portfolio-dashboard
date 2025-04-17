@@ -120,4 +120,38 @@ export const addNewSoftwareApplication = (data) => async (dispatch) => {
   }
 };
 
+export const deleteSoftwareApplication = (id) => async (dispatch) => {
+  dispatch(
+    softwareApplicationSlice.actions.deletesoftwareApplicationsRequest()
+  );
+  try {
+    const response = await axios.delete(
+      `https://mern-portfolio-backend-ob7w.onrender.com/api/v1/softwareapplication/delete/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
+    dispatch(
+      softwareApplicationSlice.actions.deletesoftwareApplicationsSuccess(
+        response.data.message
+      )
+    );
+    dispatch(softwareApplicationSlice.actions.clearAllErrors());
+  } catch (error) {
+    dispatch(
+      softwareApplicationSlice.actions.deletesoftwareApplicationsFailed(
+        error.response.data.message
+      )
+    );
+  }
+};
+
+export const clearAllSoftwareAppErrors = () => (dispatch) => {
+  dispatch(softwareApplicationSlice.actions.clearAllErrors());
+};
+
+export const resetSoftwareApplicationSlice = () => (dispatch) => {
+  dispatch(softwareApplicationSlice.actions.resetSoftwareApplicationSlice());
+};
+
 export default softwareApplicationSlice.reducer;
